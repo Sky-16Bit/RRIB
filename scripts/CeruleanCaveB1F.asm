@@ -15,26 +15,30 @@ CeruleanCaveB1F_ScriptPointers:
 
 CeruleanCaveB1F_TextPointers:
 	def_text_pointers
-	dw_const CeruleanCaveB1FMewtwoText, TEXT_CERULEANCAVEB1F_MEWTWO
-	dw_const PickUpItemText,            TEXT_CERULEANCAVEB1F_ULTRA_BALL
-	dw_const PickUpItemText,            TEXT_CERULEANCAVEB1F_MAX_REVIVE
+	dw_const CeruleanCaveB1FMarigoldText, TEXT_CERULEANCAVEB1F_MARIGOLD
+	dw_const PickUpItemText,              TEXT_CERULEANCAVEB1F_ULTRA_BALL
+	dw_const PickUpItemText,              TEXT_CERULEANCAVEB1F_MAX_REVIVE
 
 CeruleanCaveB1FTrainerHeaders:
 	def_trainers
-MewtwoTrainerHeader:
-	trainer EVENT_BEAT_MEWTWO, 0, MewtwoBattleText, MewtwoBattleText, MewtwoBattleText
+CeruleanCaveB1FTrainerHeader0:
+	trainer EVENT_BEAT_MARIGOLD, 0, CeruleanCaveB1FMarigoldBeforeBattleText, CeruleanCaveB1FMarigoldEndBattleText, CeruleanCaveB1FMarigoldAfterBattleText
 	db -1 ; end
 
-CeruleanCaveB1FMewtwoText:
+CeruleanCaveB1FMarigoldText:
 	text_asm
-	ld hl, MewtwoTrainerHeader
+	ld hl, CeruleanCaveB1FTrainerHeader0
 	call TalkToTrainer
 	jp TextScriptEnd
 
-MewtwoBattleText:
-	text_far _MewtwoBattleText
-	text_asm
-	ld a, MEWTWO
-	call PlayCry
-	call WaitForSoundToFinish
-	jp TextScriptEnd
+CeruleanCaveB1FMarigoldBeforeBattleText:
+	text_far _CeruleanCaveB1FMarigoldBeforeBattleText
+	text_end
+
+CeruleanCaveB1FMarigoldEndBattleText:
+	text_far _CeruleanCaveB1FMarigoldEndBattleText
+	text_end
+
+CeruleanCaveB1FMarigoldAfterBattleText:
+	text_far _CeruleanCaveB1FMarigoldAfterBattleText
+	text_end

@@ -93,6 +93,11 @@ _FireDefrostedText::
 	line "<TARGET>!"
 	prompt
 
+_ThawedOutText::
+	text "<USER>"
+	line "thawed out!"
+	prompt
+
 _MonsStatsRoseText::
 	text "<USER>'s"
 	line "@"
@@ -110,6 +115,13 @@ _RoseText::
 
 _MonsStatsFellText::
 	text "<TARGET>'s"
+	line "@"
+	text_ram wStringBuffer
+	text "@"
+	text_end
+
+_MonsStatsSelfBadText::
+	text "<USER>'s"
 	line "@"
 	text_ram wStringBuffer
 	text "@"

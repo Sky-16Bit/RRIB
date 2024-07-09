@@ -3209,7 +3209,11 @@ MirrorMoveCheck:
 	ld hl, ResidualEffects2
 	ld de, 1
 	call IsInArray
-	jp c, JumpMoveEffect ; done here after executing effects of ResidualEffects2
+	jr nc, .notResidual2Effect
+	ld a, [wPlayerMovePower]
+	and a ; check if zero base power
+	jp z, JumpMoveEffect
+.notResidual2Effect
 	ld a, [wMoveMissed]
 	and a
 	jr z, .moveDidNotMiss
@@ -3591,6 +3595,10 @@ WokeUpText:
 
 IsFrozenText:
 	text_far _IsFrozenText
+	text_end
+
+ThawedOutText:
+	text_far _ThawedOutText
 	text_end
 
 FullyParalyzedText:
@@ -5370,6 +5378,7 @@ MoveHitTest:
 	jr nz, .swiftCheck
 	ld a, [bc]
 	and SLP_MASK
+	OR PSN
 	jp z, .moveMissed
 .swiftCheck
 	ld a, [de]
@@ -5449,6 +5458,7 @@ MoveHitTest:
 ; if the random number generated is greater than or equal to the scaled accuracy, the move misses
 ; note that this means that even the highest accuracy is still just a 255/256 chance, not 100%
 	call BattleRandom
+	and $FE
 	cp b
 	jr nc, .moveMissed
 	ret
@@ -5740,7 +5750,11 @@ EnemyCheckIfMirrorMoveEffect:
 	ld hl, ResidualEffects2
 	ld de, $1
 	call IsInArray
-	jp c, JumpMoveEffect
+	jr nc, .notResidual2EffectEnemy
+	ld a, [wEnemyMovePower]
+	and a ; Check if zero base power
+	jp z, JumpMoveEffect
+.notResidual2EffectEnemy
 	ld a, [wMoveMissed]
 	and a
 	jr z, .moveDidNotMiss
@@ -5825,14 +5839,31 @@ CheckEnemyStatusConditions:
 	ld hl, ExecuteEnemyMoveDone ; enemy can't move this turn
 	jp .enemyReturnToHL
 .checkIfFrozen
-	bit FRZ, [hl]
+	bit FRZ, [hl] ; frozen?
 	jr z, .checkIfTrapped
+	; check for thaw
+	call BattleRandom
+	cp 30 percent + 1
+	jr nc, .thawFrozenStatus
+.stillFrozen
 	ld hl, IsFrozenText
 	call PrintText
 	xor a
 	ld [wEnemyUsedMove], a
 	ld hl, ExecuteEnemyMoveDone ; enemy can't move this turn
 	jp .enemyReturnToHL
+.thawFrozenStatus
+	xor a
+	ld [wEnemyMonStatus], a ; set opponent status to 00 ["defrost" a frozen monster]
+	ld hl, wEnemyMon1Status
+	ld a, [wEnemyMonPartyPos]
+	ld bc, wEnemyMon2 - wEnemyMon1
+	call AddNTimes
+	xor a
+	ld [hl], a ; clear status in roster
+	ld hl, ThawedOutText
+	call PrintText
+	; allowed to act this turn
 .checkIfTrapped
 	ld a, [wPlayerBattleStatus1]
 	bit USING_TRAPPING_MOVE, a ; is the player using a multi-turn attack like warp

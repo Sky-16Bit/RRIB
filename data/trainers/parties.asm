@@ -12,7 +12,7 @@ TrainerDataPointers:
 	dw BikerData
 	dw BurglarData
 	dw EngineerData
-	dw UnusedJugglerData
+	dw MarigoldData
 	dw FisherData
 	dw SwimmerData
 	dw CueBallData
@@ -310,8 +310,9 @@ EngineerData:
 	db 21, MAGNEMITE, 0
 	db 18, MAGNEMITE, MAGNEMITE, MAGNETON, 0
 
-UnusedJugglerData:
-; none
+MarigoldData:
+; Cerulean Cave	
+	db $FF, 73, BUTTERFREE, 75, SCYTHER, 77, KANGASKHAN, 77, NINETALES, 77, VAPOREON, 81, HITMONCHAN, 0
 
 FisherData:
 ; SS Anne 2F Rooms
@@ -539,7 +540,7 @@ GiovanniData:
 ; Silph Co. 11F
 	db $FF, 37, NIDORINO, 35, KANGASKHAN, 37, RHYHORN, 41, NIDOQUEEN, 0
 ; Viridian Gym
-	db $FF, 45, RHYHORN, 42, DUGTRIO, 44, NIDOQUEEN, 45, NIDOKING, 50, RHYDON, 0
+	db $FF, 50, DUGTRIO, 53, PERSIAN, 53, NIDOQUEEN, 55, NIDOKING, 55, RHYDON, 0
 
 RocketData:
 ; Mt. Moon B2F
@@ -638,28 +639,28 @@ CooltrainerFData:
 	db 43, PERSIAN, NINETALES, RAICHU, 0
 
 BrunoData:
-	db $FF, 53, ONIX, 55, HITMONCHAN, 55, HITMONLEE, 56, ONIX, 58, MACHAMP, 0
+	db $FF, 53, HYPNO, 55, HITMONCHAN, 55, HITMONLEE, 56, ELECTABUZZ, 58, MACHAMP, 0
 
 BrockData:
-	db $FF, 12, GEODUDE, 14, ONIX, 0
+	db $FF, 12, GEODUDE, 15, ONIX, 0
 
 MistyData:
 	db $FF, 18, STARYU, 21, STARMIE, 0
 
 LtSurgeData:
-	db $FF, 21, VOLTORB, 18, PIKACHU, 24, RAICHU, 0
+	db $FF, 18, VOLTORB, 21, PIKACHU, 24, RAICHU, 0
 
 ErikaData:
-	db $FF, 29, VICTREEBEL, 24, TANGELA, 29, VILEPLUME, 0
+	db $FF, 30, TANGELA, 32, VICTREEBEL, 32, VILEPLUME, 0
 
 KogaData:
-	db $FF, 37, KOFFING, 39, MUK, 37, KOFFING, 43, WEEZING, 0
+	db $FF, 44, KOFFING, 48, MUK, 46, KOFFING, 50, WEEZING, 0
 
 BlaineData:
-	db $FF, 42, GROWLITHE, 40, PONYTA, 42, RAPIDASH, 47, ARCANINE, 0
+	db $FF, 46, FLAREON, 48, MAGMAR, 50, RAPIDASH, 54, ARCANINE, 0
 
 SabrinaData:
-	db $FF, 38, KADABRA, 37, MR_MIME, 38, VENOMOTH, 43, ALAKAZAM, 0
+	db $FF, 50, KADABRA, 50, MR_MIME, 50, VENOMOTH, 50, ALAKAZAM, 0
 
 GentlemanData:
 ; SS Anne 1F Rooms
@@ -738,7 +739,7 @@ ChannelerData:
 	db 33, GASTLY, GASTLY, HAUNTER, 0
 
 AgathaData:
-	db $FF, 56, GENGAR, 56, GOLBAT, 55, HAUNTER, 58, ARBOK, 60, GENGAR, 0
+	db $FF, 55, GENGAR, 56, BEEDRILL, 56, GENGAR, 58, GOLDUCK, 60, GENGAR, 0
 
 LanceData:
-	db $FF, 58, GYARADOS, 56, DRAGONAIR, 56, DRAGONAIR, 60, AERODACTYL, 62, DRAGONITE, 0
+	db $FF, 58, SEADRA, 56, DRAGONAIR, 56, DRAGONAIR, 60, AERODACTYL, 62, DRAGONITE, 0

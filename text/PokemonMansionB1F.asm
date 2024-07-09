@@ -28,6 +28,41 @@ _PokemonMansionB1FScientistAfterBattleText::
 	cont "my studies!"
 	done
 
+_PokemonMansionB1FMewGuyHaveThisMewText::
+	text "So many bad things"
+	line "have taken place"
+	cont "in this very lab."
+	cont "Hey, kid."
+
+	para "This #MON has"
+	line "suffered enough."
+	cont "Take care of it."
+	done
+
+_PokemonMansionB1FMewGuyMewDescriptionText::
+	text "That's MEW. It was"
+	line "taken from it's"
+	cont "home by that evil"
+	cont "TEAM ROCKET and"
+	cont "was used for"
+	cont "experiments."
+	done
+
+_PokemonMansionB1FMewGuyHintText::
+	text "They made many"
+	line "clones of MEW,"
+	cont "but the process"
+	cont "of creating so"
+	cont "many clones made"
+	cont "the final results"
+	cont "much weaker than"
+	cont "expected."
+
+	para "I wonder if there"
+	line "are any clones"
+	cont "left in here?"
+	done
+
 _PokemonMansionB1FDiaryText::
 	text "Diary; Sept. 1"
 	line "MEWTWO is far too"

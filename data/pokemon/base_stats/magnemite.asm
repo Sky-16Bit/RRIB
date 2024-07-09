@@ -1,9 +1,9 @@
 	db DEX_MAGNEMITE ; pokedex id
 
-	db  25,  35,  70,  45,  95
+	db  45,  35,  70,  45,  95
 	;   hp  atk  def  spd  spc
 
-	db ELECTRIC, ELECTRIC ; type
+	db ELECTRIC, ROCK ; type
 	db 190 ; catch rate
 	db 89 ; base exp
 

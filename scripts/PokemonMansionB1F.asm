@@ -63,6 +63,7 @@ PokemonMansionB1F_TextPointers:
 	def_text_pointers
 	dw_const PokemonMansionB1FBurglarText,   TEXT_POKEMONMANSIONB1F_BURGLAR
 	dw_const PokemonMansionB1FScientistText, TEXT_POKEMONMANSIONB1F_SCIENTIST
+	dw_const PokemonMansionB1FMewGuyText,    TEXT_POKEMONMANSIONB1F_MEWGUY
 	dw_const PickUpItemText,                 TEXT_POKEMONMANSIONB1F_RARE_CANDY
 	dw_const PickUpItemText,                 TEXT_POKEMONMANSIONB1F_FULL_RESTORE
 	dw_const PickUpItemText,                 TEXT_POKEMONMANSIONB1F_TM_BLIZZARD
@@ -114,6 +115,44 @@ PokemonMansionB1FScientistEndBattleText:
 PokemonMansionB1FScientistAfterBattleText:
 	text_far _PokemonMansionB1FScientistAfterBattleText
 	text_end
+
+PokemonMansionB1FMewGuyText:
+	text_asm
+	ld a, [wd72e]
+	bit 0, a ; got mew?
+	jr z, .give_mew
+	ld hl, .MewGuyHint
+	call PrintText
+	jr .done
+.give_mew
+	ld hl, .HaveThisMewText
+	call PrintText
+	lb bc, MEW, 35
+	call GivePokemon
+	jr nc, .done
+	ld a, [wSimulatedJoypadStatesEnd]
+	and a
+	call z, WaitForTextScrollButtonPress
+	call EnableAutoTextBoxDrawing
+	ld hl, .MewDescriptionText
+	call PrintText
+	ld hl, wd72e
+	set 0, [hl]
+	jr .done
+.done
+	jp TextScriptEnd
+
+.HaveThisMewText
+	text_far _PokemonMansionB1FMewGuyHaveThisMewText
+	text_end
+
+.MewDescriptionText
+	text_far _PokemonMansionB1FMewGuyMewDescriptionText
+	text_end
+
+.MewGuyHint
+	text_far _PokemonMansionB1FMewGuyHintText
+	text_end	
 
 PokemonMansionB1FDiaryText:
 	text_far _PokemonMansionB1FDiaryText

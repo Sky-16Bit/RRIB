@@ -58,7 +58,7 @@ SleepEffect:
 .setSleepCounter
 ; set target's sleep counter to a random number between 1 and 7
 	call BattleRandom
-	and $7
+	and $5
 	jr z, .setSleepCounter
 	ld [de], a
 	call PlayCurrentMoveAnimation2
@@ -98,10 +98,13 @@ PoisonEffect:
 	jr z, .noEffect
 	ld a, [de]
 	cp POISON_SIDE_EFFECT1
-	ld b, 20 percent + 1 ; chance of poisoning
+	ld b, 30 percent + 1 ; chance of poisoning
 	jr z, .sideEffectTest
 	cp POISON_SIDE_EFFECT2
 	ld b, 40 percent + 1 ; chance of poisoning
+	jr z, .sideEffectTest
+	cp POISON_SIDE_EFFECT3
+	ld b, 60 percent + 1 ; chance of poisoning
 	jr z, .sideEffectTest
 	push hl
 	push de
@@ -217,6 +220,7 @@ FreezeBurnParalyzeEffect:
 ; extra effectiveness
 	ld b, 30 percent + 1
 	sub BURN_SIDE_EFFECT2 - BURN_SIDE_EFFECT1 ; treat extra effective as regular from now on
+; super extra effectivenes
 .regular_effectiveness
 	push af
 	call BattleRandom ; get random 8bit value for probability test
@@ -345,6 +349,27 @@ CheckDefrost:
 FireDefrostedText:
 	text_far _FireDefrostedText
 	text_end
+
+SpecialAttackUpEffect:
+	ld de, wPlayerMoveEffect
+	ldh a, [hWhoseTurn]
+	and a
+	jr z, .next
+	ld de, wEnemyMoveEffect
+.next
+	ld a, SPECIAL_UP1_EFFECT ; ugly, see comment of Dragon Dance
+	ld [de], a ; we do the side effect for the second stat because it won't run the animation
+	push de
+	call StatModifierUpEffect ; stat modifier raising function
+	pop de
+	ld a, ATTACK_UP1_EFFECT ; ugly, see comment of Dragon Dance
+	ld [de], a ; we do the side effect for the second stat because it won't run the animation
+	push de
+	call StatModifierUpEffect ; stat modifier raising function
+	pop de
+	ld a, ATTACK_SPECIAL_UP1_EFFECT
+	ld [de], a
+	ret
 
 StatModifierUpEffect:
 	ld hl, wPlayerMonStatMods
@@ -562,6 +587,7 @@ StatModifierDownEffect:
 	ld a, [de]
 	sub ATTACK_DOWN_SIDE_EFFECT ; map each stat to 0-3
 	jr .decrementStatMod
+
 .nonSideEffect ; non-side effects only
 	push hl
 	push de
@@ -678,17 +704,30 @@ UpdateLoweredStatDone:
 	call PrintStatText
 	pop de
 	ld a, [de]
-	cp $44
+    cp ATTACK_SELFDOWN1
+    jr c, .nonSelfDebuffingMoves
+    jr nc, .ApplyBadgeBoostsAndStatusPenalties
+.nonSelfDebuffingMoves
+	cp ATTACK_DOWN_SIDE_EFFECT
 	jr nc, .ApplyBadgeBoostsAndStatusPenalties
 	call PlayCurrentMoveAnimation2
 .ApplyBadgeBoostsAndStatusPenalties
+    cp ATTACK_SELFDOWN1
+    jr nc, .selfDebuffingMoves
 	ldh a, [hWhoseTurn]
 	and a
 	call nz, ApplyBadgeStatBoosts ; whenever the player uses a stat-down move, badge boosts get reapplied again to every stat,
 	                              ; even to those not affected by the stat-up move (will be boosted further)
 	ld hl, MonsStatsFellText
 	call PrintText
-
+	jr .bizarreContinuation
+.selfDebuffingMoves
+    ldh a, [hWhoseTurn]
+    and a
+    call z, ApplyBadgeStatBoosts
+	ld hl, MonsStatsSelfBadText
+	call PrintText
+.bizarreContinuation
 ; These where probably added given that a stat-down move affecting speed or attack will override
 ; the stat penalties from paralysis and burn respectively.
 ; But they are always called regardless of the stat affected by the stat-down move.
@@ -731,6 +770,22 @@ MonsStatsFellText:
 	ld hl, GreatlyFellText
 	ret
 
+MonsStatsSelfBadText: ; new, updated for the self-debuffing moves
+	text_far _MonsStatsSelfBadText
+	text_asm
+	ld hl, FellText
+	ldh a, [hWhoseTurn]
+	and a
+	ld a, [wPlayerMoveEffect]
+	jr z, .playerTurn
+	ld a, [wEnemyMoveEffect]
+.playerTurn
+; check if the move's effect decreases a stat by 2
+    cp ATTACK_SELFDOWN2
+    ret c
+    ld hl, GreatlyFellText
+	ret
+
 GreatlyFellText:
 	text_pause
 	text_far _GreatlyFellText
@@ -754,6 +809,132 @@ PrintStatText:
 	ld de, wStringBuffer
 	ld bc, $a
 	jp CopyData
+
+StatModifierSelfBadEffect:
+    ; different from usual, because we're lowering the stats of the mon that is attacking
+	ld hl, wPlayerMonStatMods
+	ld de, wPlayerMoveEffect
+	ld bc, wPlayerBattleStatus1
+	ldh a, [hWhoseTurn]
+	and a
+	jr z, .statModifierDownEffect
+	ld hl, wEnemyMonStatMods
+	ld de, wEnemyMoveEffect
+	ld bc, wEnemyBattleStatus1
+    ; --- no 25% chance of missing
+.statModifierDownEffect
+    ; --- no SUBSTITUTE check
+	ld a, [de]
+;	cp ATTACK_DOWN_SIDE_EFFECT ; TO BE EDITED
+;	jr c, .nonSideEffect
+;	ld a, [de] ; IS THIS NECESSARY?
+	sub ATTACK_SELFDOWN1 ; map each stat to 0-3
+	cp ATTACK_SELFDOWN2-ATTACK_SELFDOWN1
+	jr c, .continueWithDebuff
+	sub ATTACK_SELFDOWN2-ATTACK_SELFDOWN1
+;	jr .decrementStatMod
+;.nonSideEffect ; non-side effects only
+;	push hl
+;	push de
+;	push bc
+;	call MoveHitTest ; apply accuracy tests
+;	pop bc
+;	pop de
+;	pop hl
+;	ld a, [wMoveMissed]
+;	and a
+;	jp nz, MoveMissed
+;	ld a, [bc]
+;	bit INVULNERABLE, a ; fly/dig
+;	jp nz, MoveMissed
+;	ld a, [de]
+;	sub ATTACK_DOWN1_EFFECT
+;	cp EVASION_DOWN1_EFFECT + $3 - ATTACK_DOWN1_EFFECT ; covers all -1 effects
+;	jr c, .decrementStatMod
+;	sub ATTACK_DOWN2_EFFECT - ATTACK_DOWN1_EFFECT ; map -2 effects to corresponding -1 effect
+;.decrementStatMod
+.continueWithDebuff
+	ld c, a
+	ld b, $0
+	add hl, bc
+	ld b, [hl]
+	dec b ; dec corresponding stat mod
+	jp z, CantLowerAnymore ; if stat mod is 1 (-6), can't lower anymore
+	ld a, [de]
+	cp ATTACK_SELFDOWN2 ; new, is it a -2 effect? to be tested
+	jr c, .ok
+	dec b ; stat down 2 effects only (dec mod again)
+	jr nz, .ok
+	inc b ; increment mod to 1 (-6) if it would become 0 (-7)
+.ok
+	ld [hl], b ; save modified mod
+	ld a, c
+	cp $4
+	jp nc, UpdateLoweredStatDone ; jump for evasion/accuracy - why?
+	push hl
+	push de
+	ld hl, wBattleMonAttack + 1        ; new, swapped with below
+	ld de, wPlayerMonUnmodifiedAttack  ; new, swapped with below
+	ldh a, [hWhoseTurn]
+	and a
+	jr z, .pointToStat
+	ld hl, wEnemyMonAttack + 1         ; new, swapped with above
+	ld de, wEnemyMonUnmodifiedAttack   ; new, swapped with above
+.pointToStat
+	push bc
+	sla c
+	ld b, $0
+	add hl, bc ; hl = modified stat
+	ld a, c
+	add e
+	ld e, a
+	jr nc, .noCarry
+	inc d ; de = unmodified stat
+.noCarry
+	pop bc
+	ld a, [hld]
+	sub $1 ; can't lower stat below 1 (-6)
+	jr nz, .recalculateStat
+	ld a, [hl]
+	and a
+	jp z, CantLowerAnymore_Pop
+.recalculateStat
+; recalculate affected stat
+; paralysis and burn penalties, as well as badge boosts are ignored
+	push hl
+	push bc
+	ld hl, StatModifierRatios
+	dec b
+	sla b
+	ld c, b
+	ld b, $0
+	add hl, bc
+	pop bc
+	xor a
+	ldh [hMultiplicand], a
+	ld a, [de]
+	ldh [hMultiplicand + 1], a
+	inc de
+	ld a, [de]
+	ldh [hMultiplicand + 2], a
+	ld a, [hli]
+	ldh [hMultiplier], a
+	call Multiply
+	ld a, [hl]
+	ldh [hDivisor], a
+	ld b, $4
+	call Divide
+	pop hl
+	ldh a, [hProduct + 3]
+	ld b, a
+	ldh a, [hProduct + 2]
+	or b
+	jp nz, UpdateLoweredStat
+	ldh [hMultiplicand + 1], a
+	ld a, $1
+	ldh [hMultiplicand + 2], a
+    jp UpdateLoweredStat
+
 
 INCLUDE "data/battle/stat_mod_names.asm"
 
@@ -962,7 +1143,7 @@ TwoToFiveAttacksEffect:
 	ld [bc], a
 	ret
 .twineedle
-	ld a, POISON_SIDE_EFFECT1
+	ld a, POISON_SIDE_EFFECT2
 	ld [hl], a ; set Twineedle's effect to poison effect
 	jr .saveNumberOfHits
 
@@ -1090,11 +1271,10 @@ TrappingEffect:
                         ; the target won't need to recharge even if the trapping move missed
 	set USING_TRAPPING_MOVE, [hl] ; mon is now using a trapping move
 	call BattleRandom ; 3/8 chance for 2 and 3 attacks, and 1/8 chance for 4 and 5 attacks
-	and $3
-	cp $2
+	and $1
 	jr c, .setTrappingCounter
 	call BattleRandom
-	and $3
+	and $1
 .setTrappingCounter
 	inc a
 	ld [de], a
@@ -1162,6 +1342,10 @@ ConfusionEffectFailed:
 
 ParalyzeEffect:
 	jpfar ParalyzeEffect_
+
+BurnEffect:
+	jpfar BurnEffect_
+
 
 SubstituteEffect:
 	jpfar SubstituteEffect_

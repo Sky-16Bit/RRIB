@@ -1,7 +1,6 @@
 DrainHPEffect_:
 	ld hl, wDamage
 	ld a, [hl]
-	srl a ; divide damage by 2
 	ld [hli], a
 	ld a, [hl]
 	rr a

@@ -72,13 +72,13 @@ MoveEffectPointerTable:
 	dw StatModifierDownEffect    ; DEFENSE_DOWN_SIDE_EFFECT
 	dw StatModifierDownEffect    ; SPEED_DOWN_SIDE_EFFECT
 	dw StatModifierDownEffect    ; SPECIAL_DOWN_SIDE_EFFECT
-	dw StatModifierDownEffect    ; unused effect
-	dw StatModifierDownEffect    ; unused effect
-	dw StatModifierDownEffect    ; unused effect
-	dw StatModifierDownEffect    ; unused effect
+	dw PoisonEffect    	     ; POISON_SIDE_EFFECT3
+	dw BurnEffect  		     ; BURN_SIDE_EFFECT3
+	dw FreezeBurnParalyzeEffect  ; FREEZE_SIDE_EFFECT3
+	dw FreezeBurnParalyzeEffect  ; PARALYZE_SIDE_EFFECT3
 	dw ConfusionSideEffect       ; CONFUSION_SIDE_EFFECT
 	dw TwoToFiveAttacksEffect    ; TWINEEDLE_EFFECT
-	dw NULL                      ; unused effect
+	dw SpecialAttackUpEffect     ; ATTACK_SPECIAL_UP1_EFFECT
 	dw SubstituteEffect          ; SUBSTITUTE_EFFECT
 	dw HyperBeamEffect           ; HYPER_BEAM_EFFECT
 	dw RageEffect                ; RAGE_EFFECT
@@ -87,4 +87,15 @@ MoveEffectPointerTable:
 	dw LeechSeedEffect           ; LEECH_SEED_EFFECT
 	dw SplashEffect              ; SPLASH_EFFECT
 	dw DisableEffect             ; DISABLE_EFFECT
+	dw StatModifierSelfBadEffect ; ATTACK_SELFDOWN1
+	dw StatModifierSelfBadEffect ; DEFENSE_SELFDOWN1
+	dw StatModifierSelfBadEffect ; SPEED_SELFDOWN1
+	dw StatModifierSelfBadEffect ; SPECIAL_SELFDOWN1
+	dw StatModifierSelfBadEffect ; ATTACK_SELFDOWN2
+	dw StatModifierSelfBadEffect ; DEFENSE_SELFDOWN2
+	dw StatModifierSelfBadEffect ; SPEED_SELFDOWN2
+	dw StatModifierSelfBadEffect ; SPECIAL_SELFDOWN2
+	dw NULL     		; BURN_RECOIL_EFFECT
+	dw NULL     ; FREEZE_RECOIL_EFFECT
+	dw NULL     ; PARALYZE_RECOIL_EFFECT
 	assert_table_length NUM_MOVE_EFFECTS

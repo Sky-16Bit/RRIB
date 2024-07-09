@@ -1,9 +1,9 @@
 	db DEX_MR_MIME ; pokedex id
 
-	db  40,  45,  65,  90, 100
+	db  40,  45,  65, 105, 110
 	;   hp  atk  def  spd  spc
 
-	db PSYCHIC_TYPE, PSYCHIC_TYPE ; type
+	db PSYCHIC_TYPE, ELECTRIC ; type
 	db 45 ; catch rate
 	db 136 ; base exp
 

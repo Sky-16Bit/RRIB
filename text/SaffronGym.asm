@@ -17,10 +17,10 @@ _SaffronGymSabrinaText::
 	done
 
 _SaffronGymSabrinaReceivedMarshBadgeText::
-	text "I'm"
-	line "shocked!"
-	cont "But, a loss is a"
-	cont "loss."
+	text "I had"
+	line "certainly not"
+	cont "foreseen that"
+	cont "outcome."
 
 	para "I admit I didn't"
 	line "work hard enough"

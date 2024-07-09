@@ -16,6 +16,17 @@ SpecialEffects:
 	db ATTACK_TWICE_EFFECT
 	db JUMP_KICK_EFFECT
 	db RECOIL_EFFECT
+	db ATTACK_SELFDOWN1
+	db DEFENSE_SELFDOWN1
+	db SPEED_SELFDOWN1
+	db SPECIAL_SELFDOWN1
+	db ATTACK_SELFDOWN2
+	db DEFENSE_SELFDOWN2
+	db SPEED_SELFDOWN2
+	db SPECIAL_SELFDOWN2
+	db BURN_RECOIL_EFFECT
+	db FREEZE_RECOIL_EFFECT
+	db PARALYZE_RECOIL_EFFECT
 	; fallthrough
 SpecialEffectsCont:
 ; damaging moves whose effect is executed prior to damage calculation

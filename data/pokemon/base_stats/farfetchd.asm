@@ -1,9 +1,9 @@
 	db DEX_FARFETCHD ; pokedex id
 
-	db  52,  65,  55,  60,  58
+	db  69,  90,  65,  79,  78
 	;   hp  atk  def  spd  spc
 
-	db NORMAL, FLYING ; type
+	db GRASS, FLYING ; type
 	db 45 ; catch rate
 	db 94 ; base exp
 

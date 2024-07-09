@@ -76,13 +76,13 @@
 	const DEFENSE_DOWN_SIDE_EFFECT   ; $45
 	const SPEED_DOWN_SIDE_EFFECT     ; $46
 	const SPECIAL_DOWN_SIDE_EFFECT   ; $47
-	const_skip                       ; $48
-	const_skip                       ; $49
-	const_skip                       ; $4A
-	const_skip                       ; $4B
+	const POISON_SIDE_EFFECT3        ; $48
+	const BURN_SIDE_EFFECT3          ; $49
+	const FREEZE_SIDE_EFFECT3        ; $4A
+	const PARALYZE_SIDE_EFFECT3      ; $4B
 	const CONFUSION_SIDE_EFFECT      ; $4C
 	const TWINEEDLE_EFFECT           ; $4D
-	const_skip                       ; $4E
+	const ATTACK_SPECIAL_UP1_EFFECT  ; $4E
 	const SUBSTITUTE_EFFECT          ; $4F
 	const HYPER_BEAM_EFFECT          ; $50
 	const RAGE_EFFECT                ; $51
@@ -91,4 +91,16 @@
 	const LEECH_SEED_EFFECT          ; $54
 	const SPLASH_EFFECT              ; $55
 	const DISABLE_EFFECT             ; $56
+	const ATTACK_SELFDOWN1		 ; $57
+	const DEFENSE_SELFDOWN1		 ; $58
+	const SPEED_SELFDOWN1		 ; $59
+	const SPECIAL_SELFDOWN1          ; $5A
+	const ATTACK_SELFDOWN2           ; $5B
+	const DEFENSE_SELFDOWN2		 ; $5C
+	const SPEED_SELFDOWN2		 ; $5D
+	const SPECIAL_SELFDOWN2		 ; $5E
+	const BURN_RECOIL_EFFECT         ; $60
+	const FREEZE_RECOIL_EFFECT   	 ; $61
+	const PARALYZE_RECOIL_EFFECT	 ; $62
+
 DEF NUM_MOVE_EFFECTS EQU const_value - 1
