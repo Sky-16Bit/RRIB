@@ -60,13 +60,13 @@ ItemUsePtrTable:
 	dw UnusableItem      ; DOME_FOSSIL
 	dw UnusableItem      ; HELIX_FOSSIL
 	dw UnusableItem      ; SECRET_KEY
-	dw UnusableItem      ; ITEM_2C
+	dw ItemUseHatchet    ; HATCHET
 	dw UnusableItem      ; BIKE_VOUCHER
 	dw ItemUseXAccuracy  ; X_ACCURACY
 	dw ItemUseEvoStone   ; LEAF_STONE
 	dw ItemUseCardKey    ; CARD_KEY
 	dw UnusableItem      ; NUGGET
-	dw UnusableItem      ; ITEM_32
+	dw ItemUseBird       ; POCKET_BIRD
 	dw ItemUsePokeDoll   ; POKE_DOLL
 	dw ItemUseMedicine   ; FULL_HEAL
 	dw ItemUseMedicine   ; REVIVE
@@ -100,6 +100,8 @@ ItemUsePtrTable:
 	dw ItemUsePPRestore  ; MAX_ETHER
 	dw ItemUsePPRestore  ; ELIXER
 	dw ItemUsePPRestore  ; MAX_ELIXER
+	dw ItemUseStrength   ; POWER_GLOVE
+	dw ItemUseFlash      ; FLASHLIGHT
 
 ItemUseBall:
 
@@ -752,6 +754,97 @@ SurfingGotOnText:
 SurfingNoPlaceToGetOffText:
 	text_far _SurfingNoPlaceToGetOffText
 	text_end
+
+ItemUseHatchet:
+	xor a
+	ld [wActionResultOrTookBattleTurn], a ; initialise to failure value
+	ld a, [wCurMapTileset]
+	and a ; OVERWORLD
+	jr z, .overworld
+	cp GYM
+	jr nz, .nothingToCut
+	ld a, [wTileInFrontOfPlayer]
+	cp $50 ; gym cut tree
+	jr nz, .nothingToCut
+	jr .cuttime
+.overworld
+	dec a
+	ld a, [wTileInFrontOfPlayer]
+	cp $3d ; cut tree
+	jr z, .cuttime
+	cp $52 ; grass
+	jr z, .cuttime
+.nothingToCut
+	ld hl, NothingToCutText
+	jp PrintText
+.cuttime
+	predef UsedCut
+	ld a, [wActionResultOrTookBattleTurn]
+	and a
+	jp z, .loop
+	jp CloseTextDisplay
+.loop
+	ld [hl], " "
+	add hl, bc
+	dec a
+	jr nz, .loop
+	ret
+
+NothingToCutText:
+	text_far _NothingToCutText
+	text_end
+
+ItemUseBird:
+	call CheckIfInOutsideMap
+	jr z, .canFly
+	ld a, [wWhichPokemon]
+	ld hl, wPartyMonNicks
+	call GetPartyMonName
+	ld hl, .cannotFlyHereText
+	call PrintText
+	jp .loop
+.canFly
+	call ChooseFlyDestination
+	ld a, [wd732]
+	bit 3, a ; did the player decide to fly?
+	jp nz, .goBackToMap
+	call LoadFontTilePatterns
+	ld hl, wd72e
+	set 1, [hl]
+.cannotFlyHereText
+	text_far _CannotFlyHereText
+	text_end
+.goBackToMap
+	call RestoreScreenTilesAndReloadTilePatterns
+	jp CloseTextDisplay
+.loop
+	ld [hl], " "
+	add hl, bc
+	dec a
+	jr nz, .loop
+	ret
+
+ItemUseStrength:
+	predef PrintStrengthTxt
+	call GBPalWhiteOutWithDelay3
+	jp .goBackToMap
+.goBackToMap
+	call RestoreScreenTilesAndReloadTilePatterns
+	jp CloseTextDisplay
+
+ItemUseFlash:
+	xor a
+	ld [wMapPalOffset], a
+	ld hl, .flashLightsAreaText
+	call PrintText
+	call GBPalWhiteOutWithDelay3
+	jp .goBackToMap
+.flashLightsAreaText
+	text_far _FlashLightsAreaText
+	text_end
+.goBackToMap
+	call RestoreScreenTilesAndReloadTilePatterns
+	jp CloseTextDisplay
 
 ItemUsePokedex:
 	predef_jump ShowPokedexMenu
