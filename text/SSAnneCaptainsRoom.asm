@@ -19,14 +19,16 @@ _SSAnneCaptainsRoomCaptainIFeelMuchBetterText::
 	para "You want to see"
 	line "my CUT technique?"
 
-	para "Alrighty! I can"
-	line "show you right"
-	cont "now!"
+	para "I could show you"
+	line "if I wasn't ill..."
 
-	para "Use this and you"
-	line "can use CUT"
-	cont "any time you have"
-	cont "it on you!"
+	para "I know! You can"
+	line "have this!"
+
+	para "Teach it to your"
+	line "#MON and you"
+	cont "can see it CUT"
+	cont "any time!"
 	prompt
 
 _SSAnneCaptainsRoomCaptainReceivedHM01Text::
@@ -45,9 +47,8 @@ _SSAnneCaptainsRoomCaptainNotSickAnymoreText::
 	done
 
 _SSAnneCaptainsRoomCaptainHM01NoRoomText::
-	text "Oh no! You don't"
-	line "have any room for"
-	cont "these!"
+	text "Oh no! You have"
+	line "no room for this!"
 	done
 
 _SSAnneCaptainsRoomTrashText::
