@@ -101,8 +101,8 @@ ROMX $12
 ROMX $13
 	"Pics 6"
 	"Maps 9"
-	"Predefs"
 ROMX $14
+	"Predefs"
 	"Maps 10"
 	"Battle Engine 8"
 	"Hidden Objects 2"
