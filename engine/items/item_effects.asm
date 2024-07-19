@@ -2335,11 +2335,7 @@ ItemUseTMHM:
 	ld [wWhichPokemon], a
 	ld a, b
 	and a
-	ret z
-	ld a, [wcf91]
-	call IsItemHM
-	ret c
-	jp RemoveUsedItem
+	ret
 
 BootedUpTMText:
 	text_far _BootedUpTMText
@@ -2637,11 +2633,11 @@ GetSelectedMoveOffset2:
 ; OUTPUT:
 ; clears carry flag if the item is tossed, sets carry flag if not
 TossItem_::
-	push hl
-	ld a, [wcf91]
-	call IsItemHM
-	pop hl
-	jr c, .tooImportantToToss
+	;push hl
+	;ld a, [wcf91]
+	;call IsItemHM
+	;pop hl
+	;jr c, .tooImportantToToss  
 	push hl
 	call IsKeyItem_
 	ld a, [wIsKeyItem]
@@ -2728,7 +2724,7 @@ IsKeyItem_::
 	and a
 	ret nz
 .checkIfItemIsHM
-	ld a, [wcf91]
+	ld a, $00
 	call IsItemHM
 	ret c
 	xor a
