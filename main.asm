@@ -131,6 +131,7 @@ INCLUDE "engine/events/elevator.asm"
 SECTION "Hidden Objects 1", ROMX
 
 INCLUDE "engine/menus/oaks_pc.asm"
+INCLUDE "engine/menus/move_relearner.asm"
 INCLUDE "engine/events/hidden_objects/new_bike.asm"
 INCLUDE "engine/events/hidden_objects/oaks_lab_posters.asm"
 INCLUDE "engine/events/hidden_objects/safari_game.asm"

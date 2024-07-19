@@ -1625,6 +1625,17 @@ _CantUsePCHere:: ; new, for portablePC
 	line "this here!"
 	prompt
 
+_MoveRelearnerWhichMoveText::
+	text "Which move should"
+	line "it learn?"
+	done
+
+_MoveRelearnerNoMovesText::
+	text "This #MON"
+	line "hasn't forgotten"
+	cont "any moves."
+	prompt
+
 _RequireCoinCaseText::
 	text "A COIN CASE is"
 	line "required!@"

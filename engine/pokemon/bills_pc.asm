@@ -11,7 +11,7 @@ DisplayPCMainMenu::
 	and a
 	jr nz, .leaguePCAvailable
 	hlcoord 0, 0
-	ld b, 8
+	ld b, 10
 	ld c, 14
 	jr .next
 .noOaksPC
@@ -21,12 +21,12 @@ DisplayPCMainMenu::
 	jr .next
 .leaguePCAvailable
 	hlcoord 0, 0
-	ld b, 10
+	ld b, 12
 	ld c, 14
 .next
 	call TextBoxBorder
 	call UpdateSprites
-	ld a, 3
+	ld a, 4
 	ld [wMaxMenuItem], a
 	CheckEvent EVENT_MET_BILL
 	jr nz, .metBill
@@ -50,19 +50,24 @@ DisplayPCMainMenu::
 	hlcoord 2, 6
 	ld de, OaksPCText
 	call PlaceString
+	hlcoord 2, 8
+	ld de, MoveReminderText
+	call PlaceString
 	ld a, [wNumHoFTeams]
 	and a
 	jr z, .noLeaguePC
-	ld a, 4
+	ld a, 5
 	ld [wMaxMenuItem], a
-	hlcoord 2, 8
+	hlcoord 2, 10
 	ld de, PKMNLeaguePCText
 	call PlaceString
-	hlcoord 2, 10
+	hlcoord 2, 12
 	ld de, LogOffPCText
 	jr .next3
 .noLeaguePC
 	hlcoord 2, 8
+	ld de, MoveReminderText
+	hlcoord 2, 10
 	ld de, LogOffPCText
 	jr .next3
 .noOaksPC2
@@ -89,6 +94,7 @@ SomeonesPCText:   db "SOMEONE's PC@"
 BillsPCText:      db "BILL's PC@"
 PlayersPCText:    db "'s PC@"
 OaksPCText:       db "PROF.OAK's PC@"
+MoveReminderText: db "MOVE REMINDER@"
 PKMNLeaguePCText: db "<PKMN>LEAGUE@"
 LogOffPCText:     db "LOG OFF@"
 
