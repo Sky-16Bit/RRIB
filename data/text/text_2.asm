@@ -1620,6 +1620,11 @@ _MonWasReleasedText::
 	text "!"
 	prompt
 
+_CantUsePCHere:: ; new, for portablePC
+	text "You cannot use"
+	line "this here!"
+	prompt
+
 _RequireCoinCaseText::
 	text "A COIN CASE is"
 	line "required!@"
