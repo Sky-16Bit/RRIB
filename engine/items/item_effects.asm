@@ -2633,8 +2633,8 @@ GetSelectedMoveOffset2:
 ; OUTPUT:
 ; clears carry flag if the item is tossed, sets carry flag if not
 TossItem_::
-	;push hl
-	;ld a, [wcf91]
+	push hl
+	ld a, [wcf91]
 	;call IsItemHM
 	;pop hl
 	;jr c, .tooImportantToToss  
