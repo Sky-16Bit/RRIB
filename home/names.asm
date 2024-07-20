@@ -112,7 +112,7 @@ IsItemHM::
 	cp HM01
 	jr c, .notHM
 	cp TM01
-	ret
+	jr c, .notHM
 .notHM
 	and a
 	ret

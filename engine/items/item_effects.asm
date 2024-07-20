@@ -2638,7 +2638,6 @@ TossItem_::
 	;call IsItemHM
 	;pop hl
 	;jr c, .tooImportantToToss  
-	push hl
 	call IsKeyItem_
 	ld a, [wIsKeyItem]
 	pop hl
