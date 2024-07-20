@@ -10,13 +10,16 @@ _Route16FlyHouseBrunetteGirlText::
 
 _Route16FlyHouseBrunetteGirlReceivedHM02Text::
 	text "<PLAYER> received"
-	line "HM02!@"
+	line "POCKET BIRD!@"
 	text_end
 
 _Route16FlyHouseBrunetteGirlHM02ExplanationText::
-	text "HM02 is FLY."
-	line "It will take you"
-	cont "back to any town."
+	text "The POCKET BIRD"
+	line "will let you use"
+	cont "FLY."
+	
+	para "It will take you"
+	line "back to any town."
 
 	para "Put it to good"
 	line "use!"

@@ -22,16 +22,13 @@ _SafariZoneSecretHouseFishingGuruReceivedHM03Text::
 	text_end
 
 _SafariZoneSecretHouseFishingGuruHM03ExplanationText::
-	text "HM03 is SURF!"
+	text "That thing right"
+	line "there is a rare"
+	cont "SURFBOARD!"
 
-	para "#MON will be"
-	line "able to ferry you"
+	para "It will be able"
+	line "to ferry you"
 	cont "across water!"
-
-	para "And, this HM isn't"
-	line "disposable! You"
-	cont "can use it over"
-	cont "and over!"
 
 	para "You're super lucky"
 	line "for winning this"

@@ -51,23 +51,24 @@ _WardensHouseWardenReceivedHM04Text::
 	text_end
 
 _WardensHouseWardenHM04ExplanationText::
-	text "WARDEN: HM04"
-	line "teaches STRENGTH!"
+	text "WARDEN: The"
+	line "POWER GLOVE lets"
+	cont "you use STRENGTH!"
 
-	para "It lets #MON"
-	line "move boulders"
-	cont "when you're out-"
-	cont "side of battle."
+	para "It lets you move"
+	line "boulders when"
+	cont "you're outside of"
+	cont "battle."
 
 	para "Oh yes, did you"
 	line "find SECRET HOUSE"
 	cont "in SAFARI ZONE?"
 
 	para "If you do, you"
-	line "win an HM!"
+	line "win a cool prize!"
 
-	para "I hear it's the"
-	line "rare SURF HM."
+	para "I hear it's a"
+	line "rare SURFBOARD."
 	done
 
 _WardensHouseWardenHM04NoRoomText::

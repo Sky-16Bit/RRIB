@@ -19,16 +19,14 @@ _SSAnneCaptainsRoomCaptainIFeelMuchBetterText::
 	para "You want to see"
 	line "my CUT technique?"
 
-	para "I could show you"
-	line "if I wasn't ill..."
+	para "Alrighty! I can"
+	line "show you right"
+	cont "now!"
 
-	para "I know! You can"
-	line "have this!"
-
-	para "Teach it to your"
-	line "#MON and you"
-	cont "can see it CUT"
-	cont "any time!"
+	para "Use this and you"
+	line "can use CUT"
+	cont "any time you have"
+	cont "it on you!"
 	prompt
 
 _SSAnneCaptainsRoomCaptainReceivedHM01Text::
