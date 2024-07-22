@@ -356,3 +356,7 @@ INCLUDE "data/battle_anims/frame_blocks.asm"
 INCLUDE "engine/movie/evolution.asm"
 INCLUDE "engine/overworld/elevator.asm"
 INCLUDE "engine/items/tm_prices.asm"
+
+SECTION "newCode", ROMX
+
+INCLUDE "engine/overworld/use_another_repel.asm"

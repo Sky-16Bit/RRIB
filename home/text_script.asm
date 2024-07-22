@@ -208,7 +208,8 @@ PlayerBlackedOutText::
 DisplayRepelWoreOffText::
 	ld hl, RepelWoreOffText
 	call PrintText
-	jp AfterDisplayingTextID
+	callfar UseAnotherRepel ; new, from Vortiene
+	jp CloseTextDisplay
 
 RepelWoreOffText::
 	text_far _RepelWoreOffText
