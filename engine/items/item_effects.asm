@@ -756,43 +756,10 @@ SurfingNoPlaceToGetOffText:
 	text_end
 
 ItemUseHatchet:
-	xor a
-	ld [wActionResultOrTookBattleTurn], a ; initialise to failure value
-	ld a, [wCurMapTileset]
-	and a ; OVERWORLD
-	jr z, .overworld
-	cp GYM
-	jr nz, .nothingToCut
-	ld a, [wTileInFrontOfPlayer]
-	cp $50 ; gym cut tree
-	jr nz, .nothingToCut
-	jr .cuttime
-.overworld
-	dec a
-	ld a, [wTileInFrontOfPlayer]
-	cp $3d ; cut tree
-	jr z, .cuttime
-	cp $52 ; grass
-	jr z, .cuttime
-.nothingToCut
-	ld hl, NothingToCutText
-	jp PrintText
-.cuttime
-	predef UsedCut
-	ld a, [wActionResultOrTookBattleTurn]
-	and a
-	jp z, .loop
-	jp CloseTextDisplay
-.loop
-	ld [hl], " "
-	add hl, bc
-	dec a
-	jr nz, .loop
+    predef UsedCut
+	call RestoreScreenTilesAndReloadTilePatterns
+	jpfar CloseTextDisplay
 	ret
-
-NothingToCutText:
-	text_far _NothingToCutText
-	text_end
 
 ItemUseBird:
 	call CheckIfInOutsideMap
@@ -804,24 +771,25 @@ ItemUseBird:
 	call PrintText
 	jp .loop
 .canFly
-	call ChooseFlyDestination
-	ld a, [wd732]
-	bit 3, a ; did the player decide to fly?
-	jp nz, .goBackToMap
-	call LoadFontTilePatterns
-	ld hl, wd72e
-	set 1, [hl]
+    call ChooseFlyDestination
+    ld a, [wd732]
+    bit 3, a ; did the player decide to fly?
+    call LoadFontTilePatterns
+    ld hl, wd72e
+    set 1, [hl]
+    call RestoreScreenTilesAndReloadTilePatterns
 .cannotFlyHereText
 	text_far _CannotFlyHereText
 	text_end
+.loop
+	xor a
+	ld [wMenuItemToSwap], a
+	ld [wPartyMenuTypeOrMessageID], a
+	jp nz, .goBackToMap
+	ret
 .goBackToMap
 	call RestoreScreenTilesAndReloadTilePatterns
-	jp CloseTextDisplay
-.loop
-	ld [hl], " "
-	add hl, bc
-	dec a
-	jr nz, .loop
+	jpfar CloseTextDisplay
 	ret
 
 ItemUseStrength:
