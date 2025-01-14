@@ -9,10 +9,7 @@ A few years ago, there was a Gen 1 Pet Mod called Rose Red/Iris Blue. The goal o
 - To balance them, Mew and Mewtwo have recived several significant nerfs. They've also been moved elsewhere (Hint: Go back to where it all began.)
 	- In Mewtwo's place, someone special is waiting for you.
 
-(For a list of changes to the above, read:)
-
-[**To Pokemon**](data/pokemon/base_stats)
-[**To Moves**](docs/moves.html)
+(For a list of changes to most of the above, see [**here**](http://thedominiky.com/rby2k20/pokedex.php?meta=rrib)).
 
 **There's also a few mechanic changes:**
 
